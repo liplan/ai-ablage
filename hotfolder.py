@@ -1,13 +1,26 @@
 import argparse
 import os
 import time
+import logging
+from dotenv import load_dotenv
 
 from MillerLieblingskind.main import process_pdf
+
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+    handlers=[
+        logging.FileHandler(os.path.join(LOG_DIR, "hotfolder.log")),
+        logging.StreamHandler(),
+    ],
+)
 
 
 def monitor_folder(folder: str, slack_token: str | None, slack_channel: str | None, tts: bool, interval: int) -> None:
     os.makedirs(folder, exist_ok=True)
-    print(f"Scanning '{folder}' every {interval}s for PDF files...")
+    logging.info("Scanning '%s' every %ds for PDF files...", folder, interval)
     while True:
         for name in os.listdir(folder):
             if not name.lower().endswith(".pdf"):
@@ -16,9 +29,10 @@ def monitor_folder(folder: str, slack_token: str | None, slack_channel: str | No
             if not os.path.isfile(path):
                 continue
             try:
-                process_pdf(path, slack_token, slack_channel, tts)
+                summary = process_pdf(path, slack_token, slack_channel, tts)
+                logging.info("Processed %s", summary["pdf"])
             except Exception as exc:
-                print(f"Failed to process {path}: {exc}")
+                logging.exception("Failed to process %s: %s", path, exc)
         time.sleep(interval)
 
 
@@ -30,6 +44,11 @@ def main() -> None:
     parser.add_argument("--slack-channel", dest="slack_channel", help="Slack channel ID")
     parser.add_argument("--tts", action="store_true", help="Read tasks aloud")
     args = parser.parse_args()
+
+    load_dotenv()
+    args.slack_token = args.slack_token or os.getenv("SLACK_TOKEN")
+    args.slack_channel = args.slack_channel or os.getenv("SLACK_CHANNEL")
+
     monitor_folder(args.folder, args.slack_token, args.slack_channel, args.tts, args.interval)
 
 

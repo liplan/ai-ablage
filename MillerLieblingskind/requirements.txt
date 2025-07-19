@@ -3,3 +3,4 @@ pdf2image
 slack_sdk
 gtts
 playsound
+python-dotenv

@@ -20,3 +20,11 @@ Mit `hotfolder.py` lässt sich ein Ordner überwachen, in den neue PDF-Dateien g
 ```bash
 python hotfolder.py /pfad/zum/hotfolder --interval 10
 ```
+
+### Konfiguration
+
+Leg eine Datei `.env` im Projektverzeichnis an und fülle sie nach dem Vorbild von `.env.example` aus. Dort werden Slack-Zugangsdaten hinterlegt, die von den Skripten automatisch geladen werden.
+
+### Logging
+
+Während der Verarbeitung werden Protokolle und Zusammenfassungen unter `logs/` abgelegt.
