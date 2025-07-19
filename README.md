@@ -34,8 +34,9 @@ sudo apt-get install tesseract-ocr-deu
 installieren. Bei Homebrew befindet es sich bereits in `$(brew --prefix)/share/tessdata`.
 Falls Tesseract das Datenverzeichnis nicht selbst findet, setze die Umgebungs-
 variable `TESSDATA_PREFIX` auf den Pfad zu diesem Ordner. Das Skript versucht
-diese Variable beim Start automatisch zu setzen, falls sie fehlt, dennoch sollte
-das Sprachpaket korrekt installiert sein.
+die Variable beim Start nun automatisch auf einen Ordner zu setzen, in dem sich
+die Datei `deu.traineddata` befindet. Ist sie nirgends auffindbar, wird eine
+aussagekräftige Fehlermeldung ausgegeben.
 
 ### Hotfolder verwenden
 
