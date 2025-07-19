@@ -17,6 +17,8 @@ except ImportError:
 DEFAULT_TESSDATA_PATHS = [
     "/usr/share/tesseract-ocr/5/tessdata",
     "/usr/share/tesseract-ocr/4.00/tessdata",
+    "/usr/share/tesseract-ocr/tessdata",
+    "/usr/share/tessdata",
     "/usr/local/share/tessdata",
     "/opt/homebrew/share/tessdata",
 ]
