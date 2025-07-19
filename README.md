@@ -24,7 +24,18 @@ sudo apt-get install tesseract-ocr
 
 installieren. Auf macOS kann stattdessen `brew install tesseract` verwendet
 werden. Achte darauf, dass das `tesseract`-Kommando im `PATH` liegt, damit
-`pytesseract` es finden kann.
+`pytesseract` es finden kann. Zusätzlich wird das Sprachpaket `deu` benötigt.
+Unter Debian/Ubuntu lässt es sich beispielsweise mit
+
+```bash
+sudo apt-get install tesseract-ocr-deu
+```
+
+installieren. Bei Homebrew befindet es sich bereits in `$(brew --prefix)/share/tessdata`.
+Falls Tesseract das Datenverzeichnis nicht selbst findet, setze die Umgebungs-
+variable `TESSDATA_PREFIX` auf den Pfad zu diesem Ordner. Das Skript versucht
+diese Variable beim Start automatisch zu setzen, falls sie fehlt, dennoch sollte
+das Sprachpaket korrekt installiert sein.
 
 ### Hotfolder verwenden
 
