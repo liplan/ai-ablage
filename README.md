@@ -43,8 +43,10 @@ aussagekräftige Fehlermeldung ausgegeben.
 Mit `hotfolder.py` lässt sich ein Ordner überwachen, in den neue PDF-Dateien gelegt werden. Jede gefundene Datei wird einmalig verarbeitet und anschließend archiviert. Beispiel:
 
 ```bash
-python hotfolder.py /pfad/zum/hotfolder --interval 10
+python hotfolder.py /pfad/zum/hotfolder --interval 10 --keep
 ```
+Das Flag `--keep` ist optional und verhindert, dass die
+verarbeiteten PDF-Dateien verschoben werden.
 
 ### Konfiguration
 
@@ -53,3 +55,13 @@ Leg eine Datei `.env` im Projektverzeichnis an und fülle sie nach dem Vorbild v
 ### Logging
 
 Während der Verarbeitung werden Protokolle und Zusammenfassungen unter `logs/` abgelegt.
+
+### Neuerungen
+
+- PDFs werden nun anhand der im Dokument hinterlegten Author-Information in
+  Unterordnern gespeichert.
+- Die Dateinamen in `archive/` sind auf 32 Zeichen begrenzt.
+- Über die Option `--keep` können die Originaldateien beim Verarbeiten
+  behalten werden, sodass sie mehrfach eingelesen werden können.
+- Bei der Verarbeitung wird zusätzlich eine kurze Textzusammenfassung
+  ausgegeben und protokolliert.
