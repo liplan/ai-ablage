@@ -13,6 +13,19 @@ Dieses Unterprojekt analysiert eingescannte PDF-Dokumente automatisch. Es demons
 - `utils/task_extractor.py` – Extraktion von Aufgaben und Fristen
 - `requirements.txt` – Benötigte Python-Pakete
 
+### Zusätzliche Abhängigkeiten
+
+Für die OCR muss das Tesseract-Binary installiert sein. Unter Debian/Ubuntu
+lässt es sich mit
+
+```bash
+sudo apt-get install tesseract-ocr
+```
+
+installieren. Auf macOS kann stattdessen `brew install tesseract` verwendet
+werden. Achte darauf, dass das `tesseract`-Kommando im `PATH` liegt, damit
+`pytesseract` es finden kann.
+
 ### Hotfolder verwenden
 
 Mit `hotfolder.py` lässt sich ein Ordner überwachen, in den neue PDF-Dateien gelegt werden. Jede gefundene Datei wird einmalig verarbeitet und anschließend archiviert. Beispiel:
