@@ -4,9 +4,17 @@ import os
 import logging
 from datetime import datetime
 
-from utils.ocr_engine import pdf_to_text
-from utils.document_classifier import classify_document
-from utils.task_extractor import extract_tasks
+# Support execution both as a script and as a module
+if __package__:
+    # Imported via "MillerLieblingskind.main" - use relative imports
+    from .utils.ocr_engine import pdf_to_text
+    from .utils.document_classifier import classify_document
+    from .utils.task_extractor import extract_tasks
+else:
+    # Executed directly - fall back to absolute imports
+    from utils.ocr_engine import pdf_to_text
+    from utils.document_classifier import classify_document
+    from utils.task_extractor import extract_tasks
 from dotenv import load_dotenv
 
 LOG_DIR = "logs"
