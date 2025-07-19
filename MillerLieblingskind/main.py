@@ -47,19 +47,14 @@ def speak_text(text: str):
     playsound(filename)
     os.remove(filename)
 
-def main():
-    parser = argparse.ArgumentParser(description="Process a scanned PDF document.")
-    parser.add_argument("pdf", help="Path to the PDF file")
-    parser.add_argument("--slack-token", help="Slack API token", dest="slack_token")
-    parser.add_argument("--slack-channel", help="Slack channel ID", dest="slack_channel")
-    parser.add_argument("--tts", action="store_true", help="Read tasks aloud")
-    args = parser.parse_args()
 
-    text = pdf_to_text(args.pdf)
+def process_pdf(pdf_path: str, slack_token: str | None = None, slack_channel: str | None = None, tts: bool = False) -> None:
+    """Process a single PDF document using the standard pipeline."""
+    text = pdf_to_text(pdf_path)
     doc_type = classify_document(text)
     tasks = extract_tasks(text)
 
-    archived_path = save_document(args.pdf, doc_type)
+    archived_path = save_document(pdf_path, doc_type)
 
     tasks_json = json.dumps(tasks, indent=2, ensure_ascii=False)
     print(f"Dokumenttyp: {doc_type}")
@@ -67,12 +62,22 @@ def main():
     print("Gefundene Aufgaben:")
     print(tasks_json)
 
-    if args.slack_token and args.slack_channel:
+    if slack_token and slack_channel:
         message = f"Dokumenttyp: {doc_type}\nAufgaben: {tasks_json}"
-        send_slack_message(args.slack_token, args.slack_channel, message)
+        send_slack_message(slack_token, slack_channel, message)
 
-    if args.tts:
+    if tts:
         speak_text(tasks_json)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Process a scanned PDF document.")
+    parser.add_argument("pdf", help="Path to the PDF file")
+    parser.add_argument("--slack-token", help="Slack API token", dest="slack_token")
+    parser.add_argument("--slack-channel", help="Slack channel ID", dest="slack_channel")
+    parser.add_argument("--tts", action="store_true", help="Read tasks aloud")
+    args = parser.parse_args()
+    process_pdf(args.pdf, args.slack_token, args.slack_channel, args.tts)
 
 if __name__ == "__main__":
     main()
