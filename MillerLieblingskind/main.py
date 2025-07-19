@@ -3,9 +3,10 @@ import json
 import os
 from datetime import datetime
 
-from utils.ocr_engine import pdf_to_text
-from utils.document_classifier import classify_document
-from utils.task_extractor import extract_tasks
+from MillerLieblingskind.utils.ocr_engine import pdf_to_text
+from MillerLieblingskind.utils.document_classifier import classify_document
+from MillerLieblingskind.utils.task_extractor import extract_tasks
+from MillerLieblingskind.utils.install_hint import check_first_run
 
 try:
     from slack_sdk import WebClient
@@ -71,6 +72,7 @@ def process_pdf(pdf_path: str, slack_token: str | None = None, slack_channel: st
 
 
 def main():
+    check_first_run()
     parser = argparse.ArgumentParser(description="Process a scanned PDF document.")
     parser.add_argument("pdf", help="Path to the PDF file")
     parser.add_argument("--slack-token", help="Slack API token", dest="slack_token")

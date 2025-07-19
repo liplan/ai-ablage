@@ -2,6 +2,8 @@ import argparse
 import os
 import time
 
+from MillerLieblingskind.utils.install_hint import check_first_run
+
 from MillerLieblingskind.main import process_pdf
 
 
@@ -23,6 +25,7 @@ def monitor_folder(folder: str, slack_token: str | None, slack_channel: str | No
 
 
 def main() -> None:
+    check_first_run()
     parser = argparse.ArgumentParser(description="Monitor a hotfolder for new PDF files")
     parser.add_argument("folder", nargs="?", default="hotfolder", help="Folder to monitor")
     parser.add_argument("--interval", type=int, default=5, help="Polling interval in seconds")
